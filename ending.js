@@ -308,7 +308,7 @@ window.Ending = (() => {
     ring(true); moon(R * 2.4, 0.9, 3, TEAL, true); moon(R * 1.6, -1.4, 2, GOLD, true);
   }
 
-  /* ---------- Nova Prime surface ---------- */
+  /* nova prime */
   const surfGround = () => H - 22;
   const landX = () => W * 0.36;
   const landShipY = () => surfGround() - 3 - HALF;
@@ -395,7 +395,7 @@ window.Ending = (() => {
         px(p.x - capR * 0.4, top - capR * 0.3, "#ffffff"); px(p.x + capR * 0.3, top - capR * 0.4, "#ffffff");
       }
     }
-    // glowing grass
+    // grass
     for (let i = 0; i < 40; i++) {
       const x = hash(i, 20, 45) * W, y = gy + 2 + hash(i, 21, 45) * (H - gy - 4);
       if (Math.sin(t * 3 + i) > 0.2) px(x, y, i % 2 ? "#7ff0c0" : "#ffb0e8");
@@ -434,7 +434,7 @@ window.Ending = (() => {
     px(x - 2, y - 11, "#ffd35a"); px(x + 2, y - 11, "#ffd35a");
   }
 
-  /* ---------- scenes ---------- */
+  /* scenes */
   function sceneLand(t, dt) {
     if (t < T.space) { drawSpaceport(t); if (t < T.lift) { drawShip(padX(), padShipY(), -Math.PI / 2, 0); drawBoarding(t); } else drawLaunch(t, dt); return; }
 
@@ -455,7 +455,7 @@ window.Ending = (() => {
     drawProps(t);
     drawSpores(dt);
 
-    // glowing landing pad
+    // landing pad
     const glow = (Math.sin(t * 4) + 1) / 2;
     for (let i = -14; i <= 14; i++) px(lx + i, gy, glow > 0.5 && Math.abs(i) % 4 === 0 ? "#ffffff" : "#5ad1ff");
 
@@ -603,7 +603,7 @@ window.Ending = (() => {
     if (boomT >= 0 && t - boomT < 0.12) { ctx.fillStyle = "rgba(255, 255, 255, 0.6)"; ctx.fillRect(0, 0, W, H); }
   }
 
-  /* ---------- loop ---------- */
+  /* loop */
   function resize() {
     const aspect = innerWidth > 0 && innerHeight > 0 ? innerHeight / innerWidth : 9 / 16;
     W = 240; H = Math.round(240 * aspect);
@@ -651,7 +651,7 @@ window.Ending = (() => {
   const PILOT = { skin: "#f0c9a0", hair: "#2b2d5c", hairStyle: "buzz", shirt: "#3d8bfd", eyes: "#2b2d5c", accessory: "visor" };
 
   return {
-    // crew: looks of the travelers who were approved (they board the ship)
+    // crew
     play(m, people, onDone) {
       mode = m; callback = onDone; called = false;
       crew = (people && people.length ? people : [PILOT]).slice(0, 8);

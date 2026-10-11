@@ -1,10 +1,6 @@
 /*
-  GATEWAY sound effects. Every sound is made live with the Web Audio API,
-  so there are no audio files to load or license.
-
-  Sounds are triggered by watching the page (clicks and changes on screen),
-  so game.js doesn't need to know about them. ending.js calls Sfx.play() directly.
-  The 🔊 button in the top-right corner mutes everything (remembered between visits).
+  GATEWAY sound effects 
+  Sound made live with the Web Audio API,
 */
 window.Sfx = (() => {
   let ctx = null, master = null, noiseBuf = null, muted = false;

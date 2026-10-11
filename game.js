@@ -307,10 +307,10 @@
     }));
   }
 
-  
+  // displaying the rule book
   function renderRules() {
     const scanned = rules.scannedTokens.concat(state.shift.slice(0, state.i).map((q) => q.boarding.token.code));
-    $("#tab-rules").innerHTML = `
+    $("#tab-rules").innerHTML = ` 
       <h4>Today</h4><p>${fmtDate(rules.now.date)}. The current time is on the live clock at the top.</p>
       <h4>Decision rule</h4><p><b>${rules.denyAt} or more</b> red flags = DENY. One minor flag can pass.</p>
       <h4>Trusted passport issuers</h4><ul>${rules.trustedIssuers.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
@@ -323,15 +323,16 @@
       <h4>Password policy</h4><ul><li>12 or more characters</li><li>At least 3 of: lowercase, UPPERCASE, numbers, symbols</li><li>No names, birth years, or common words (password, qwerty, 123456…)</li></ul>`;
   }
 
+  // casear cipher tab
   function renderCipher(p) {
-    const c = p.passport.cipher, enc = encrypt(p.passport.name, c);
+    const c = p.passport.cipher, enc = encrypt(p.passport.name, c); // getting scrambled name
     const A = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
     const explain = `<b>Caesar cipher, shift ${c.shift}.</b> Every letter moved ${c.shift} forward. Move it <b>back ${c.shift}</b> to decode.`;
     const words = enc.split(" ");
     let idx = 0;
     const slots = words.map((w) => `<div class="word">${[...w].map((ch) => {
       const i = idx++;
-      return /[A-Z]/.test(ch)
+      return /[A-Z]/.test(ch) // if character upercase, make input box; otherwise create fixed element
         ? `<label class="slot"><span>${ch}</span><input data-i="${i}" data-want="${decrypt(ch, c)}" aria-label="Real letter for ${ch}" autocomplete="off" spellcheck="false"></label>`
         : `<div class="slot fixed"><span>${ch}</span><b>${ch}</b></div>`;
     }).join("")}</div>`).join("");
@@ -361,7 +362,7 @@
       if (right === inputs.length) { out.textContent = `✓ Decoded: ${p.passport.name.toUpperCase()}. Now compare it with the boarding pass.`; out.className = "decode-out good"; }
       else { out.textContent = `${right} / ${inputs.length} letters`; out.className = "decode-out"; }
     };
-    const put = (inp, letter) => {
+    const put = (inp, letter) => { // checking the letters user inputs
       inp.value = letter;
       inp.parentElement.classList.toggle("good", !!letter && letter === inp.dataset.want);
       inp.parentElement.classList.toggle("bad", !!letter && letter !== inp.dataset.want);
@@ -405,10 +406,10 @@
     $("#desk").scrollTop = 0;
   }
 
-  /* ---------- tools in hand: rubber stamps and the magnifying glass ---------- */
-  const stampHTML = (kind) => `<span class="knob"></span><span class="neck"></span><span class="base">${kind === "approve" ? "APPROVED" : "DENIED"}</span>`;
-  const glassHTML = `<span class="glass-icon"><span class="lens"></span><span class="grip"></span></span>`;
-  const isStamp = (kind) => kind === "approve" || kind === "deny";
+  // holding magnifying glass/stamp + plus moving it around
+  const stampHTML = (kind) => `<span class="knob"></span><span class="neck"></span><span class="base">${kind === "approve" ? "APPROVED" : "DENIED"}</span>`; //stamp appearance
+  const glassHTML = `<span class="glass-icon"><span class="lens"></span><span class="grip"></span></span>`; // magnifying glass appearance
+  const isStamp = (kind) => kind === "approve" || kind === "deny"; //checking if tool is a stamp
 
   function hold(kind) {
     state.held = kind;
@@ -443,7 +444,7 @@
     state.locked = true;
     const kind = state.held, pp = $("#passport"), r = pp.getBoundingClientRect();
     const zone = $("#stamp-zone").getBoundingClientRect();
-    // the ink lands where you clicked, kept inside the STAMP box (keyboard stamps land in its centre)
+    // keeping in designated area to be stamped
     const cx = clientX ? Math.min(zone.right, Math.max(zone.left, clientX)) : zone.left + zone.width / 2;
     const cy = clientY ? Math.min(zone.bottom, Math.max(zone.top, clientY)) : zone.top + zone.height / 2;
     const x = cx - r.left, y = cy - r.top;
@@ -466,29 +467,29 @@
     setTimeout(() => decide(kind === "approve"), 1100);
   }
 
-  /* ---------- decisions ---------- */
+  // making the decision
   function decide(approve) {
-    const p = state.shift[state.i];
-    const key = evaluate(p, state.i);
-    const problems = CHECKS.filter((c) => !key[c.id].ok);
-    const shouldApprove = problems.length < rules.denyAt;
+    const p = state.shift[state.i]; 
+    const key = evaluate(p, state.i); // getting correct answers of passenger
+    const problems = CHECKS.filter((c) => !key[c.id].ok); //making an array of actualy mistakes
+    const shouldApprove = problems.length < rules.denyAt; // should be less than 2
     const correct = approve === shouldApprove;
     let markPts = 0;
-    CHECKS.forEach((c) => { const m = state.marks[c.id]; if (m && (m === "ok") === key[c.id].ok) markPts += 10; });
-    state.score += (correct ? 100 : 0) + markPts;
+    CHECKS.forEach((c) => { const m = state.marks[c.id]; if (m && (m === "ok") === key[c.id].ok) markPts += 10; }); // getting points from your checklist
+    state.score += (correct ? 100 : 0) + markPts; // 100 pts for every correct decision
     state.history.push({ name: p.boarding.name, approve, shouldApprove, correct, look: p.look, p });
-    closeInspect();
+    closeInspect(); //closing insepction
 
-    const rows = CHECKS.map((c) => {
+    const rows = CHECKS.map((c) => { //here it makes our table after stamping
       const m = state.marks[c.id], truth = key[c.id].ok;
-      const yours = m ? (m === "ok" ? "✓" : "✗") : "–";
-      const right = m ? (m === "ok") === truth : null;
+      const yours = m ? (m === "ok" ? "✓" : "✗") : "–"; // what the user put in
+      const right = m ? (m === "ok") === truth : null; 
       return `<tr class="${truth ? "" : "problem"}">
         <td>${c.label}</td><td class="${right === null ? "" : right ? "good" : "bad"}">${yours}</td>
         <td>${truth ? "✓" : "✗"}</td><td class="why">${esc(key[c.id].why)}</td></tr>`;
     }).join("");
 
-    const list = `<ul>${problems.map((c) => `<li><b>${c.label}:</b> ${esc(key[c.id].why)}</li>`).join("")}</ul>`;
+    const list = `<ul>${problems.map((c) => `<li><b>${c.label}:</b> ${esc(key[c.id].why)}</li>`).join("")}</ul>`; //failed list of checks explained
     let summary;
     if (problems.length === 0) summary = `<div class="problems clean"><h4>All clear</h4><p>Every check passed. This traveler was safe to fly.</p></div>`;
     else if (problems.length < rules.denyAt) summary = `<div class="problems minor"><h4>1 red flag: allowed through</h4><p>It takes ${rules.denyAt} red flags to deny, so this traveler may pass. Still worth noticing:</p>${list}</div>`;
@@ -504,14 +505,14 @@
       <details><summary>Full checklist answers</summary>
         <table><thead><tr><th>Check</th><th>You</th><th>Answer</th><th>Why</th></tr></thead><tbody>${rows}</tbody></table>
       </details>
-      <button id="next-btn" class="pixel-btn">${state.i + 1 < state.shift.length ? "Next passenger →" : "Launch the ship 🚀"}</button>`;
+      <button id="next-btn" class="pixel-btn">${state.i + 1 < state.shift.length ? "Next passenger →" : "Launch the ship"}</button>`;
     $("#verdict").hidden = false;
     renderHud();
-    $("#next-btn").focus();
+    $("#next-btn").focus(); //moving on to the next passenger
     $("#next-btn").onclick = () => {
       $("#verdict").hidden = true;
       state.i += 1;
-      if (state.i < state.shift.length) loadPassenger();
+      if (state.i < state.shift.length) loadPassenger(); // when reaches 12, bcuz 12<12 is false
       else finish();
     };
   }
@@ -566,8 +567,7 @@
     loadPassenger();
   }
 
-  // Download every picture for this shift up front, so each traveler appears instantly
-  // instead of leaving the window empty while their picture loads.
+  // Download every picture for this shift up front, each traveler appears instantly
   const preloaded = [];
   function preloadArt(list) {
     list.forEach((p) => [p.image, p.passport.photoImage].filter(Boolean).forEach((src) => {
@@ -577,7 +577,7 @@
     }));
   }
 
-  /* ---------- wiring ---------- */
+  // welcome, start buttons
   $("#welcome-btn").onclick = () => { Intro.stop(); show("briefing"); };
   $("#start-btn").onclick = begin;
   document.querySelectorAll(".tabs button").forEach((b) => (b.onclick = () => setTab(b.dataset.tab)));
@@ -593,7 +593,7 @@
     hold(state.held === "glass" ? null : "glass");
     if (!state.held) closeInspect();
   };
-  // Stamps only count inside the STAMP box. Anywhere else just nudges the player toward it.
+  // Stamps only count inside the STAMP box, anywhere else just nudges the player toward it.
   let zoneTimer = null;
   document.addEventListener("click", (e) => {
     if (!isStamp(state.held) || state.locked || !$("#game").classList.contains("active")) return;

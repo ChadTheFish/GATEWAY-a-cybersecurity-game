@@ -72,14 +72,14 @@ button:focus-visible { outline: 3px dashed var(--blue); outline-offset: 4px; }
 .brief-card ol { padding-left: 24px; }
 .brief-card li { margin: 6px 0; }
 #start-btn { display: block; margin: 20px auto 0; }
-/* sound on/off button (added by sound.js), always in the top-right corner */
+/* sound on/off button (added by sound.js), top-right corner */
 .mute-btn { position: fixed; top: 6px; right: 8px; z-index: 40; width: 34px; height: 30px; border: none; border-radius: 4px; background: #f7fbff; box-shadow: 0 0 0 2px var(--ink); font-size: 16px; line-height: 1; padding: 0; }
 .mute-btn:hover { background: var(--yellow); }
 .hud { padding-right: 56px; }
 .about { background: #e6f0ff; border-left: 5px solid var(--blue); padding: 8px 12px; }
 .warn { background: #ffe9e6; border-left: 5px solid var(--red); padding: 8px 12px; }
 
-/* ---------- desk ---------- */
+/* desk */
 #game { background: var(--wall); display: none; flex-direction: column; }
 #game.active { display: flex; }
 .hud {
@@ -94,7 +94,7 @@ button:focus-visible { outline: 3px dashed var(--blue); outline-offset: 4px; }
 
 .booth { display: flex; flex-direction: column; gap: 18px; }
 .scanner {
-  position: relative; flex: 0 0 auto; aspect-ratio: 3 / 4; /* same shape as the passport photo, so both crop the art identically */
+  position: relative; flex: 0 0 auto; aspect-ratio: 3 / 4; /* same shape as the passport photo */
   background: linear-gradient(#fff4dc, #ffe2b0); border-radius: 6px 6px 0 0;
   box-shadow: 0 0 0 10px #8fa6c8, 0 0 0 13px var(--ink);
   overflow: hidden; display: flex; align-items: flex-end; justify-content: center; margin: 12px 12px 0;
@@ -102,7 +102,7 @@ button:focus-visible { outline: 3px dashed var(--blue); outline-offset: 4px; }
 .scanner-light { position: absolute; top: 8px; left: 50%; width: 50px; height: 10px; margin-left: -25px; background: var(--red); border-radius: 3px; box-shadow: 0 0 14px 4px rgba(239, 83, 80, 0.7); animation: blink 1s steps(2) infinite; opacity: 0.4; }
 .traveler { width: 88%; }
 .traveler svg, .traveler img { width: 100%; display: block; }
-.traveler svg { image-rendering: pixelated; } /* placeholder faces stay pixel-art; character drawings stay smooth */
+.traveler svg { image-rendering: pixelated; } /* placeholder faces stay pixel-art, character drawings iis smooth */
 .traveler.enter { animation: walk-in 0.6s ease-out; }
 /* character art: shoulders-up in the scanner window */
 .traveler.art { position: absolute; inset: 0; width: auto; overflow: hidden; }
@@ -192,7 +192,7 @@ button:focus-visible { outline: 3px dashed var(--blue); outline-offset: 4px; }
 .chest.open .chest-base { box-shadow: 0 0 0 3px var(--ink), inset 0 10px 0 #3a2410; }
 .chest.open:hover .chest-lid { transform: translateY(-18px) rotate(-14deg); }
 
-/* inspection tray under the luggage */
+/* inspection tray */
 .lug-col { display: flex; flex-direction: column; gap: 18px; }
 .plate {
   position: relative; padding: 26px 16px 18px; min-height: 150px; border-radius: 50% / 34%;
@@ -360,7 +360,7 @@ td.why { color: var(--ink-soft); }
 .pixel-btn:disabled { opacity: 0.5; cursor: default; }
 kbd { font-family: var(--pixel); font-size: 9px; background: var(--ink); color: #fff; padding: 3px 6px; border-radius: 3px; box-shadow: 0 2px 0 #000; }
 
-/* smaller screens: stack everything and let the page scroll */
+/* smaller screen: stack everything and let the page scroll */
 @media (max-width: 1150px) {
   body { overflow: auto; }
   #game.active { position: static; min-height: 100vh; }
