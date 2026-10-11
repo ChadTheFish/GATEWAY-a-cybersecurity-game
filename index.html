@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GATEWAY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <!-- Bump ?v= after editing files so browsers load the new versions instead of cached ones -->
+  <link rel="stylesheet" href="style.css?v=33">
+</head>
+<body>
+
+  <!-- 1. Title screen -->
+  <section id="intro" class="screen active">
+    <canvas id="intro-canvas"></canvas>
+    <div class="intro-ui">
+      <button id="welcome-btn" class="welcome">Welcome to<span>GATEWAY</span></button>
+      <p class="intro-hint">click to begin your shift</p>
+    </div>
+  </section>
+
+  <!-- 2. Briefing -->
+  <section id="briefing" class="screen">
+    <div class="panel brief-card">
+      <h2>Officer Briefing</h2>
+      <p class="about">🛡️ <b>GATEWAY is a cybersecurity game.</b> While you check travelers, you'll learn real online-safety skills: spotting strong and weak passwords, two-step login (MFA), phishing websites, fake identities, encrypted data, and only giving people the access they need.</p>
+      <p>You guard the security gate at <b>GATEWAY Spaceport</b>. Hackers, impersonators and data smugglers are trying to board today's flight.</p>
+      <ol>
+        <li>Each traveler hands you a <b>passport</b>, a <b>boarding pass</b> and their <b>luggage</b>.</li>
+        <li>Work through the <b>Checklist</b>: mark each item ✓ (fine) or ✗ (red flag).</li>
+        <li>Use the <b>Rulebook</b> to verify issuers, seals, websites and tokens.</li>
+        <li>Passport names are encrypted. Crack them with the <b>Cipher Note</b>.</li>
+        <li>Pick up a rubber stamp and stamp the passport <b>APPROVED</b> or <b>DENIED</b>. <b>2 or more red flags</b> means deny. One minor slip can pass.</li>
+      </ol>
+      <p class="warn">You check 6 travelers per shift, then your ship launches. 6/6 right: a smooth landing on Nova Prime. 4 or 5: aliens chase you the whole way. 3 or fewer: the ship goes down.</p>
+      <button id="start-btn" class="pixel-btn">Open the gate</button>
+    </div>
+  </section>
+
+  <!-- 3. Security desk -->
+  <section id="game" class="screen">
+    <header class="hud">
+      <div class="logo">GATEWAY</div>
+      <div id="hud-passenger"></div>
+      <div id="hud-clock" class="clock"></div>
+      <div id="hud-score" class="score"></div>
+    </header>
+
+    <div class="layout">
+      <aside class="booth">
+        <div class="scanner">
+          <div class="scanner-light"></div>
+          <div id="traveler" class="traveler"></div>
+        </div>
+        <div id="speech" class="speech"></div>
+        <div class="tool-slot">
+          <button id="glass-btn" class="glass-btn" type="button" aria-label="Pick up the magnifying glass">
+            <span class="glass-icon"><span class="lens"></span><span class="grip"></span></span>
+          </button>
+          <p><b>Magnifying glass</b><small id="glass-hint">Pick it up, then click an item on the tray to inspect it.</small></p>
+        </div>
+      </aside>
+
+      <main class="desk" id="desk">
+        <div id="boarding" class="doc boarding"></div>
+        <div class="desk-row">
+          <div id="passport" class="doc passport"></div>
+          <div class="lug-col">
+            <div id="luggage" class="doc luggage"></div>
+            <div id="plate" class="plate">
+              <p class="plate-label">Inspection tray</p>
+              <div id="plate-items" class="plate-items"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside class="side panel">
+        <nav class="tabs">
+          <button data-tab="checklist" class="on">Checklist</button>
+          <button data-tab="rules">Rulebook</button>
+          <button data-tab="cipher">Cipher Note</button>
+        </nav>
+        <div class="tab-body">
+          <div id="tab-checklist"></div>
+          <div id="tab-rules" class="rules" hidden></div>
+          <div id="tab-cipher" hidden></div>
+        </div>
+        <div class="stamp-tray">
+          <p id="tray-hint" class="tray-hint">Pick up a stamp, then stamp the passport.</p>
+          <div class="tray-row">
+            <button class="rubber approve" data-kind="approve" aria-label="Pick up APPROVED stamp"><span class="knob"></span><span class="neck"></span><span class="base">APPROVED</span></button>
+            <button class="rubber deny" data-kind="deny" aria-label="Pick up DENIED stamp"><span class="knob"></span><span class="neck"></span><span class="base">DENIED</span></button>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div id="held" class="held" hidden></div>
+    <div id="inspect-pop" class="inspect-pop panel" role="dialog" aria-label="Item inspection" hidden></div>
+
+    <div id="verdict" class="modal" hidden>
+      <div id="verdict-card" class="panel verdict-card"></div>
+    </div>
+  </section>
+
+  <!-- 4. Flight -->
+  <section id="ending" class="screen">
+    <canvas id="ending-canvas"></canvas>
+    <div id="ending-card" class="panel ending-card" hidden></div>
+  </section>
+
+  <script src="data.js?v=33"></script>
+  <script src="avatar.js?v=33"></script>
+  <script src="intro.js?v=33"></script>
+  <script src="ending.js?v=33"></script>
+  <script src="game.js?v=33"></script>
+  <script src="sound.js?v=33"></script>
+</body>
+</html>
