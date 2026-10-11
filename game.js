@@ -50,7 +50,7 @@
   }
   setInterval(() => { if ($("#game").classList.contains("active")) $("#hud-clock").textContent = `${fmtDate(rules.now.date)} · ${clockText(true)}`; }, 250);
 
-  /* ---------- automatic answer key ---------- */ // look this section over 
+// checking strength of password, length, kind, common words, etc.
   function passwordProblems(pw, p) {
     const out = [], low = pw.toLowerCase();
     if (pw.length < 12) out.push(`only ${pw.length} characters (need 12+)`);
@@ -127,22 +127,9 @@
   // graphic
   // Character pictures reuse the ?v= tag from index.html, so updated art isn't hidden by the browser cache.
   const ART_V = ((document.querySelector('script[src*="game.js"]') || {}).src || "").split("v=")[1] || "";
+  const portrait = (img, look) => (img ? `<img src="${esc(img)}?v=${ART_V}" alt="">` : pixelAvatar(look));
 
-  // If a picture fails to load retry once, then show the pixel placeholder
-  // so a character never disappears from the window or passport.
-  window.artFailed = (el) => {
-    if (!el.dataset.retried) {
-      el.dataset.retried = "1";
-      setTimeout(() => { el.src = el.src.split("&retry")[0] + "&retry=" + Date.now(); }, 300);
-      return;
-    }
-    el.hidden = true;
-    if (el.nextElementSibling) el.nextElementSibling.hidden = false;
-  };
-  const portrait = (img, look) => (img
-    ? `<img src="${esc(img)}?v=${ART_V}" alt="" onerror="artFailed(this)"><span class="art-fallback" hidden>${pixelAvatar(look)}</span>`
-    : pixelAvatar(look));
-
+  // making a qr code graphic NOT REAL OR SCANABLE
   function qr(code) {
     let h = 0;
     for (const c of code) h = (Math.imul(h, 31) + c.charCodeAt(0)) | 0;
@@ -152,7 +139,7 @@
       if (dx < 0 || dy < 0 || dx > 6 || dy > 6) return false;
       return dx === 0 || dy === 0 || dx === 6 || dy === 6 || (dx > 1 && dx < 5 && dy > 1 && dy < 5);
     });
-    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { // going through all squares deciding if black or white
       const inF = corners.some(([fx, fy]) => x >= fx - 1 && x <= fx + 7 && y >= fy - 1 && y <= fy + 7);
       let on;
       if (inF) on = finder(x, y);
@@ -238,7 +225,7 @@
 
   function renderLuggage(p) {
     const el = $("#luggage"), plate = $("#plate-items");
-    clearTimeout(nudgeTimer);
+    clearTimeout(nudgeTimer); // resetting the tray
     $(".plate-label").textContent = "Inspection tray";
     $(".plate-label").classList.remove("nudge");
     if (!state.open) {
@@ -267,7 +254,7 @@
   let nudgeTimer = null;
   function nudgePlate() {
     const label = $(".plate-label");
-    label.textContent = "Use the magnifying glass to inspect 🔍";
+    label.textContent = "Use the magnifying glass to inspect";
     label.classList.add("nudge");
     clearTimeout(nudgeTimer);
     nudgeTimer = setTimeout(() => {
@@ -275,12 +262,13 @@
       label.classList.remove("nudge");
     }, 2500);
   }
-
+ 
+  // inspection report
   function inspect(it, btn) {
     btn.classList.add("seen");
     const pop = $("#inspect-pop");
     pop.innerHTML = `
-      <div class="pop-head">🔍 Inspection report</div>
+      <div class="pop-head"> Inspection report</div>
       <button class="pop-close" aria-label="Close">×</button>
       <div class="pop-body"><div class="pop-icon">${itemArt(it)}</div><div><b>${esc(it.name)}</b><p>${esc(it.desc)}</p></div></div>
       <div class="scanline"></div>`;
@@ -296,6 +284,7 @@
   }
   const closeInspect = () => ($("#inspect-pop").hidden = true);
 
+  // actually building the checklist
   function renderChecklist() {
     let html = "", group = "";
     for (const c of CHECKS) {
@@ -318,6 +307,7 @@
     }));
   }
 
+  
   function renderRules() {
     const scanned = rules.scannedTokens.concat(state.shift.slice(0, state.i).map((q) => q.boarding.token.code));
     $("#tab-rules").innerHTML = `

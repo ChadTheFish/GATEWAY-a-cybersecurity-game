@@ -149,11 +149,7 @@ button:focus-visible { outline: 3px dashed var(--blue); outline-offset: 4px; }
 /* while holding a stamp, only the STAMP box lights up: that's the only place a stamp counts */
 .holding-stamp .pp-stamp-zone { border: 3px dashed var(--ink); color: var(--ink); background-color: #fff3b0; box-shadow: 0 0 0 4px var(--yellow); animation: zone-pulse 1s ease-in-out infinite; }
 @keyframes zone-pulse { 50% { box-shadow: 0 0 0 7px rgba(255, 211, 90, 0.5); } }
-.pp-stamp-zone.nudge { animation: shake 0.3s, zone-pulse 1s ease-in-out 0.3s infinite; border-color: var(--red) !important; }
-/* placeholder face shown if a character picture fails to load */
-.art-fallback svg { width: 100%; display: block; }
-.traveler.art .art-fallback { position: absolute; left: 6%; right: 6%; bottom: 0; }
-.passport.thud { animation: thud 0.25s; }
+.pp-stamp-zone.nudge { animation: shake 0.3s, zone-pulse 1s ease-in-out 0.3s infinite; border-color: var(--red) !important; }.passport.thud { animation: thud 0.25s; }
 @keyframes thud { 30% { transform: translateY(3px) scale(0.99); } }
 .ink {
   position: absolute; z-index: 2; pointer-events: none;

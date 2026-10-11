@@ -79,7 +79,7 @@ const PASSENGERS = [
       permissions: ["BOARD:B1", "SEAT:C2", "CARRY_ON:1"],
     },
     luggage: [
-      { icon: "🎤", name: "Toast Cards", desc: "Cue cards for the wedding toast. Card 3 just says \"DON'T CRY.\"" },
+      { icon: "🎤", name: "Toast Cards", desc: "Cue cards for the wedding toast." },
       { icon: "🩹", name: "Sparkly Eyepatch", desc: "A glittery spare, saved for the wedding photos." },
       { icon: "🎁", name: "Wedding Gift", desc: "Hand-painted teacups wrapped in starfoil. The tag says \"From Nova, sorry I'm late.\"" },
     ],
@@ -109,7 +109,7 @@ const PASSENGERS = [
     },
     luggage: [
       { icon: "🪪", name: "Crew Keycard", desc: "Cloned from a pilot's badge, with a little bull sticker on the back. Label reads: \"Opens any door marked STAFF ONLY.\"", suspicious: true },
-      { icon: "🐂", name: "Bull Keychain", desc: "A tiny Taurus charm. It isn't holding any keys." },
+      { icon: "🐂", name: "Bull Keychain", desc: "A tiny bull charm." },
       { icon: "🧥", name: "Spare Jacket", desc: "A plain grey jacket, the exact same as the one being worn right now." },
     ],
   },
@@ -172,7 +172,7 @@ const PASSENGERS = [
     look: { skin: "#8a5a40", hair: "#f0f0f0", hairStyle: "long", shirt: "#c8c8c8", eyes: "#c03030" },
     image: "characters/hd/mira.png",
     passport: {
-      name: "Hydra Pollux", cipher: { type: "caesar", shift: 4 }, age: 22,
+      name: "Hydra Pollux", cipher: { type: "caesar", shift: 4 }, age: 23,
       id: "LFR-402-7718", username: "hydra_pollux",
       issuer: "Lunar Federation Registry", seal: "LFR-SIG-2209",
     },
@@ -199,7 +199,7 @@ const PASSENGERS = [
     image: "characters/hd/zed.png",
     passport: {
       name: "Alessandro Peal", cipher: { type: "caesar", shift: 7 }, age: 22,
-      id: "MCA-881-2045", username: "zhalloway",
+      id: "MCA-881-2045", username: "dromasS",
       issuer: "Mars Colonial Authority", seal: "MCA-SIG-8830",
     },
     boarding: {
@@ -223,7 +223,7 @@ const PASSENGERS = [
     look: { skin: "#f6dcc8", hair: "#4a4040", hairStyle: "long", shirt: "#a8c8f0", eyes: "#2b2d5c" },
     image: "characters/hd/ada.png",
     passport: {
-      name: "Jenny Aquarius", cipher: { type: "caesar", shift: 13 }, age: 23,
+      name: "Jenny Aquarius", cipher: { type: "caesar", shift: 13 }, age: 18,
       id: "LFR-613-2290", username: "1BarbaraHater",
       issuer: "Lunar Federation Registry", seal: "LFR-SIG-2209",
     },
@@ -249,7 +249,7 @@ const PASSENGERS = [
     look: { skin: "#f6e0d0", hair: "#3a3434", hairStyle: "long", shirt: "#2e2e32", eyes: "#5a5a60" },
     image: "characters/hd/oscar.png",
     passport: {
-      name: "Oscar Sirius", cipher: { type: "caesar", shift: 2 }, age: 58,
+      name: "Oscar Sirius", cipher: { type: "caesar", shift: 2 }, age: 38,
       id: "MCA-204-5571", username: "oscar.sirius",
       issuer: "Mars Colonial Authority", seal: "MCA-SIG-8830",
     },
@@ -275,7 +275,7 @@ const PASSENGERS = [
     look: { skin: "#9a6a50", hair: "#f0e0b0", hairStyle: "short", shirt: "#d8a040", eyes: "#6a2a3a" },
     image: "characters/hd/rosa.png",
     passport: {
-      name: "Castillo Mae", cipher: { type: "caesar", shift: 11 }, age: 40,
+      name: "Castillo Mae", cipher: { type: "caesar", shift: 11 }, age: 25,
       id: "IPB-330-1182", username: "castingmae",
       issuer: "Interstellar Passport Bureau", seal: "IPB-SIG-4471",
     },

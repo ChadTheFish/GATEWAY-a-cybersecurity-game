@@ -94,7 +94,16 @@ window.Sfx = (() => {
     alarm:   () => [0, 1, 2].forEach((i) => tone({ freq: 880, to: 660, dur: 0.25, vol: 0.06, delay: i * 0.3 })),
     zap:     () => tone({ freq: 1800, to: 300, type: "sawtooth", dur: 0.15, vol: 0.05 }),
     sputter: () => { for (let i = 0; i < 5; i++) noise({ dur: 0.08, vol: 0.25, freq: 300, delay: i * 0.14 }); },
-    boom:    () => { noise({ dur: 1.6, vol: 0.7, freq: 1200, to: 60 }); tone({ freq: 90, to: 30, type: "sine", dur: 1.2, vol: 0.5 }); },
+    // BIG crash explosion, built in layers so it sounds huge even on laptop speakers
+    boom:    () => {
+      noise({ dur: 0.25, vol: 1.0, filter: "highpass", freq: 2500 });                  // sharp CRACK
+      noise({ dur: 0.6, vol: 1.0, filter: "bandpass", freq: 900, to: 200, q: 0.6 });  // punchy blast
+      tone({ freq: 220, to: 55, type: "sawtooth", dur: 0.9, vol: 0.35 });             // growl small speakers can play
+      tone({ freq: 110, to: 28, type: "sine", dur: 1.8, vol: 0.9 });                  // deep BOOM for headphones
+      noise({ dur: 3.2, vol: 0.8, freq: 1400, to: 40, delay: 0.05 });                 // long rolling rumble
+      for (let i = 0; i < 9; i++) noise({ dur: 0.07, vol: 0.45, filter: "bandpass", freq: 1500 + Math.random() * 2500, q: 2, delay: 0.35 + Math.random() * 1.6 }); // debris crackles
+      tone({ freq: 70, to: 30, type: "sine", dur: 1.2, vol: 0.6, delay: 0.5 });       // aftershock thump
+    },
   };
 
   function play(name, ...args) {
